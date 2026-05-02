@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import api from '../api/api';
 import { FaUser, FaLock } from 'react-icons/fa';
 import './Login.css';
@@ -6,6 +7,7 @@ import './Login.css';
 export default function Login() {
   const [cpf, setCpf] = useState('');
   const [senha, setSenha] = useState('');
+  const navigate = useNavigate();
 
   const login = async () => {
     try {
@@ -13,12 +15,16 @@ export default function Login() {
         alert('Preencha CPF e senha');
         return;
       }
+
       const res = await api.post('/auth/login', {
         cpf,
         senha
       });
+
       localStorage.setItem('token', res.data.token);
-      window.location.href = '/dashboard';
+
+      navigate('/dashboard');
+
     } catch (err) {
       alert('CPF ou senha inválidos');
       console.error(err);
@@ -29,6 +35,7 @@ export default function Login() {
     <div className="login-container">
       <h1 className="system-name">S-RAPeL</h1>
       <h2 className="login-title">Login</h2>
+
       <div className="input-group">
         <FaUser className="input-icon" />
         <input
@@ -53,7 +60,10 @@ export default function Login() {
       <button className="login-button" onClick={login}>
         Entrar
       </button>
-      <a href="/cadastro" className="login-link">Criar conta</a>
+
+      <Link to="/cadastro" className="login-link">
+        Criar conta
+      </Link>
     </div>
   );
 }
