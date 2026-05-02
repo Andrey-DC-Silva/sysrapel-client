@@ -18,17 +18,33 @@ export default function Pesquisadores() {
     async function carregar() {
         try {
             const res = await api.get('/pesquisadores');
+
             console.log('RES:', res.data);
-            setLista(Array.isArray(res.data) ? res.data : res.data.data || []);
+
+            const data = res.data;
+
+            let listaFinal = [];
+
+            if (Array.isArray(data)) {
+                listaFinal = data;
+            } else if (Array.isArray(data.data)) {
+                listaFinal = data.data;
+            } else if (Array.isArray(data.pesquisadores)) {
+                listaFinal = data.pesquisadores;
+            } else {
+                console.error('Formato inesperado:', data);
+            }
+
+            setLista(listaFinal);
+
         } catch (err) {
             console.error(err);
+            setLista([]); 
         }
     }
+
     useEffect(() => {
-        async function fetchData() {
-            await carregar();
-        }
-        fetchData();
+        carregar();
     }, []);
 
     function handleChange(e) {
@@ -76,26 +92,19 @@ export default function Pesquisadores() {
 
                 <h2 className="pesq-title">Pesquisadores</h2>
 
-                {/* FORM */}
                 <form className="pesq-card" onSubmit={salvar}>
-
                     <input className="input" name="nome" placeholder="Nome" value={form.nome} onChange={handleChange} />
-
                     <input className="input" name="cpf" placeholder="CPF" value={form.cpf} onChange={handleChange} />
-
                     <input className="input" name="email" placeholder="Email" value={form.email} onChange={handleChange} />
-
                     <input className="input" name="area_atuacao" placeholder="Área de atuação" value={form.area_atuacao} onChange={handleChange} />
 
                     <button className="btn-primary" type="submit">
                         {editando ? 'Atualizar' : 'Cadastrar'}
                     </button>
-
                 </form>
 
-                {/* LISTA */}
                 <div className="pesq-list">
-                    {lista.map(p => (
+                    {(Array.isArray(lista) ? lista : []).map(p => (
                         <div key={p.id} className="pesq-item">
 
                             <div>

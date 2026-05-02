@@ -10,24 +10,41 @@ export default function Login() {
   const navigate = useNavigate();
 
   const login = async () => {
+    if (loading) return;
+
     try {
       if (!cpf || !senha) {
         alert('Preencha CPF e senha');
         return;
       }
 
-      const res = await api.post('/auth/login', {
-        cpf,
-        senha
-      });
+      setLoading(true);
 
-      localStorage.setItem('token', res.data.token);
+      const res = await api.post('/auth/login', { cpf, senha });
+
+      const token = res.data?.token || res.data?.accessToken;
+
+      if (!token) {
+        alert('Erro ao autenticar');
+        console.error(res.data);
+        return;
+      }
+
+      localStorage.setItem('token', token);
 
       navigate('/dashboard');
 
     } catch (err) {
-      alert('CPF ou senha inválidos');
       console.error(err);
+
+      const msg =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        'Erro ao fazer login';
+
+      alert(msg);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -57,8 +74,8 @@ export default function Login() {
         />
       </div>
 
-      <button className="login-button" onClick={login}>
-        Entrar
+      <button className="login-button" onClick={login} disabled={loading}>
+        {loading ? 'Entrando...' : 'Entrar'}
       </button>
 
       <Link to="/cadastro" className="login-link">

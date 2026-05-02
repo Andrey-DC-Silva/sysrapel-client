@@ -4,6 +4,14 @@ import Navbar from '../components/Navbar';
 import { FaPlus, FaTrash, FaEdit } from 'react-icons/fa';
 import './Experimentos.css';
 
+// 🔒 util pra garantir array
+function extrairArray(data) {
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data?.data)) return data.data;
+  if (Array.isArray(data?.experimentos)) return data.experimentos;
+  return [];
+}
+
 export default function Experimentos() {
   const [lista, setLista] = useState([]);
   const [editando, setEditando] = useState(null);
@@ -16,17 +24,19 @@ export default function Experimentos() {
     pesquisador_id: ''
   });
 
+  // 🔽 CARREGAR (única função, corrigida)
   const carregar = async () => {
-    const res = await api.get('/experimentos');
-    setLista(res.data);
+    try {
+      const res = await api.get('/experimentos');
+      console.log('EXPERIMENTOS:', res.data);
+      setLista(extrairArray(res.data));
+    } catch (err) {
+      console.error('Erro ao carregar:', err);
+      setLista([]);
+    }
   };
 
   useEffect(() => {
-    const carregar = async () => {
-      const res = await api.get('/experimentos');
-      setLista(res.data);
-    };
-
     carregar();
   }, []);
 
@@ -48,14 +58,19 @@ export default function Experimentos() {
   const salvar = async () => {
     if (!form.nome) return;
 
-    if (editando) {
-      await api.put(`/experimentos/${editando}`, form);
-    } else {
-      await api.post('/experimentos', form);
-    }
+    try {
+      if (editando) {
+        await api.put(`/experimentos/${editando}`, form);
+      } else {
+        await api.post('/experimentos', form);
+      }
 
-    limpar();
-    carregar();
+      limpar();
+      carregar();
+
+    } catch (err) {
+      console.error('Erro ao salvar:', err);
+    }
   };
 
   const editar = (exp) => {
@@ -64,8 +79,12 @@ export default function Experimentos() {
   };
 
   const deletar = async (id) => {
-    await api.delete(`/experimentos/${id}`);
-    carregar();
+    try {
+      await api.delete(`/experimentos/${id}`);
+      carregar();
+    } catch (err) {
+      console.error('Erro ao deletar:', err);
+    }
   };
 
   return (
@@ -128,9 +147,9 @@ export default function Experimentos() {
 
         </div>
 
-        {/* LISTA */}
+        {/* 🔒 LISTA PROTEGIDA */}
         <div className="exp-list">
-          {lista.map((e) => (
+          {(Array.isArray(lista) ? lista : []).map((e) => (
             <div key={e.id} className="exp-item">
 
               <div>

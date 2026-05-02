@@ -10,6 +10,14 @@ import {
   FaSave
 } from 'react-icons/fa';
 
+function extrairArray(data) {
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data?.data)) return data.data;
+  if (Array.isArray(data?.projetos)) return data.projetos;
+  if (Array.isArray(data?.pesquisadores)) return data.pesquisadores;
+  return [];
+}
+
 const estadoInicial = {
   nome: '',
   descricao: '',
@@ -26,23 +34,30 @@ export default function Projetos() {
   const [editandoId, setEditandoId] = useState(null);
 
   const carregarProjetos = async () => {
-    const res = await api.get('/projetos');
-    console.log('RES:', res.data);
-    setLista(Array.isArray(res.data) ? res.data : res.data.data || []);
+    try {
+      const res = await api.get('/projetos');
+      console.log('PROJETOS:', res.data);
+      setLista(extrairArray(res.data));
+    } catch (err) {
+      console.error('Erro projetos:', err);
+      setLista([]);
+    }
   };
 
   const carregarPesquisadores = async () => {
-    const res = await api.get('/pesquisadores');
-    console.log('RES:', res.data);
-    setPesquisadores(Array.isArray(res.data) ? res.data : res.data.data || []);
+    try {
+      const res = await api.get('/pesquisadores');
+      console.log('PESQUISADORES:', res.data);
+      setPesquisadores(extrairArray(res.data));
+    } catch (err) {
+      console.error('Erro pesquisadores:', err);
+      setPesquisadores([]);
+    }
   };
 
   useEffect(() => {
-    async function fetchData() {
-      await carregarProjetos();
-      await carregarPesquisadores();
-    }
-    fetchData();
+    carregarProjetos();
+    carregarPesquisadores();
   }, []);
 
   const handleChange = (e) => {
@@ -55,26 +70,35 @@ export default function Projetos() {
   };
 
   const salvar = async () => {
-    const payload = {
-      ...form,
-      pesquisador_responsavel_id: form.pesquisador_responsavel_id
-        ? Number(form.pesquisador_responsavel_id)
-        : null
-    };
+    try {
+      const payload = {
+        ...form,
+        pesquisador_responsavel_id: form.pesquisador_responsavel_id
+          ? Number(form.pesquisador_responsavel_id)
+          : null
+      };
 
-    if (editandoId) {
-      await api.put(`/projetos/${editandoId}`, payload);
-    } else {
-      await api.post('/projetos', payload);
+      if (editandoId) {
+        await api.put(`/projetos/${editandoId}`, payload);
+      } else {
+        await api.post('/projetos', payload);
+      }
+
+      limpar();
+      carregarProjetos();
+
+    } catch (err) {
+      console.error('Erro ao salvar:', err);
     }
-
-    limpar();
-    carregarProjetos();
   };
 
   const deletar = async (id) => {
-    await api.delete(`/projetos/${id}`);
-    carregarProjetos();
+    try {
+      await api.delete(`/projetos/${id}`);
+      carregarProjetos();
+    } catch (err) {
+      console.error('Erro ao deletar:', err);
+    }
   };
 
   const iniciarEdicao = (p) => {
@@ -152,7 +176,8 @@ export default function Projetos() {
             onChange={handleChange}
           >
             <option value="">-- Nenhum responsável --</option>
-            {pesquisadores.map(p => (
+
+            {(Array.isArray(pesquisadores) ? pesquisadores : []).map(p => (
               <option key={p.id} value={p.id}>
                 {p.nome} ({p.area_atuacao})
               </option>
@@ -173,7 +198,7 @@ export default function Projetos() {
         </div>
 
         <div className="proj-list">
-          {lista.map(p => (
+          {(Array.isArray(lista) ? lista : []).map(p => (
             <div key={p.id} className="proj-item">
 
               <div>

@@ -3,6 +3,13 @@ import api from '../api/api';
 import './CadastrarUser.css';
 import { useNavigate } from 'react-router-dom';
 
+function extrairArray(data) {
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data?.data)) return data.data;
+  if (Array.isArray(data?.pesquisadores)) return data.pesquisadores;
+  return [];
+}
+
 export default function CadastroUsuario() {
   const navigate = useNavigate();
 
@@ -13,15 +20,21 @@ export default function CadastroUsuario() {
 
   useEffect(() => {
     async function load() {
-      const res = await api.get('/pesquisadores');
-      setPesquisadores(res.data);
+      try {
+        const res = await api.get('/pesquisadores');
+        console.log('PESQUISADORES:', res.data);
+        setPesquisadores(extrairArray(res.data));
+      } catch (err) {
+        console.error('Erro ao carregar pesquisadores:', err);
+        setPesquisadores([]);
+      }
     }
     load();
   }, []);
 
   const cadastrar = async () => {
     try {
-      const pesquisador = pesquisadores.find(
+      const pesquisador = (Array.isArray(pesquisadores) ? pesquisadores : []).find(
         (p) => p.id === Number(idPesquisador)
       );
 
@@ -38,9 +51,8 @@ export default function CadastroUsuario() {
 
       alert('Usuário criado!');
 
-      setTimeout(() => {
-        navigate('/');
-      }, 800);
+      navigate('/');
+
     } catch (err) {
       console.error(err);
       alert('Erro ao criar usuário');
@@ -59,7 +71,8 @@ export default function CadastroUsuario() {
           onChange={(e) => setIdPesquisador(e.target.value)}
         >
           <option value="">Selecione pesquisador</option>
-          {pesquisadores.map((p) => (
+
+          {(Array.isArray(pesquisadores) ? pesquisadores : []).map((p) => (
             <option key={p.id} value={p.id}>
               {p.nome}
             </option>
