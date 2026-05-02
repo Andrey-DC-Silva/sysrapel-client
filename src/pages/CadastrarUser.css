@@ -1,0 +1,78 @@
+:root {
+  --primary: rgb(108, 208, 186);
+  --primary-dark: rgb(88, 180, 160);
+  --primary-light: rgb(200, 240, 230);
+  --text-dark: #0f172a;
+  --gray: #e2e8f0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Container */
+.cadastro-container {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 35px;
+  border-radius: 12px;
+  background: #f8fafc;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+
+/* Nome sistema */
+.system-name {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--primary-dark);
+}
+
+/* Título */
+.cadastro-title {
+  margin-bottom: 20px;
+  color: #334155;
+  font-weight: 600;
+}
+
+/* Inputs */
+.input-group {
+  margin-bottom: 15px;
+  background: var(--gray);
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.input-group:focus-within {
+  background: var(--primary-light);
+}
+
+.input-field {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: var(--text-dark);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Botão */
+.primary-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: var(--primary);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.primary-button:hover {
+  background: var(--primary-dark);
+  transform: scale(1.03);
+}

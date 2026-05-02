@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root {
+  --primary: rgb(108, 208, 186);
+  --primary-dark: rgb(88, 180, 160);
+  --bg: #0f172a;
+  --card: #f8fafc;
+}
+
+.rel-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg), var(--primary-dark));
+  font-family: 'Inter', sans-serif;
+}
+
+.rel-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* título */
+.rel-title {
+  color: white;
+  margin-bottom: 20px;
+}
+
+/* cards */
+.rel-card {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+/* subtítulo */
+.subtitle {
+  margin-top: 10px;
+  color: #334155;
+}
+
+/* input/select */
+.input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  margin-top: 10px;
+}
+
+/* lista */
+.list {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* item */
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* botões */
+.btn-primary {
+  margin-top: 10px;
+  background: var(--primary);
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  background: #fee2e2;
+  color: #dc2626;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}

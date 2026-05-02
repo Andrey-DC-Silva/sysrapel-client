@@ -1,0 +1,115 @@
+:root {
+  --primary: rgb(108, 208, 186);
+  --primary-dark: rgb(88, 180, 160);
+  --bg: #0f172a;
+  --card: #f8fafc;
+}
+
+.proj-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg), var(--primary-dark));
+  font-family: 'Inter', sans-serif;
+}
+
+.proj-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* título */
+.proj-title {
+  color: white;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* form */
+.proj-card {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  display: grid;
+  gap: 10px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+/* inputs */
+.input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  outline: none;
+  font-family: 'Inter';
+}
+
+.input:focus {
+  border-color: var(--primary);
+}
+
+/* botões */
+.btn-primary {
+  background: var(--primary);
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+.btn-secondary {
+  background: #e2e8f0;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* lista */
+.proj-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* item */
+.proj-item {
+  background: white;
+  padding: 12px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ações */
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ícones */
+.btn-icon {
+  border: none;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-icon.edit {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.btn-icon.delete {
+  background: #fee2e2;
+  color: #dc2626;
+}

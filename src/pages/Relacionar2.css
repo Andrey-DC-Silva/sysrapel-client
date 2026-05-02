@@ -1,0 +1,92 @@
+:root {
+  --primary: rgb(108, 208, 186);
+  --primary-dark: rgb(88, 180, 160);
+  --bg: #0f172a;
+  --card: #f8fafc;
+}
+
+.rel2-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg), var(--primary-dark));
+  font-family: 'Inter', sans-serif;
+}
+
+.rel2-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.rel2-title {
+  color: white;
+  margin-bottom: 20px;
+}
+
+/* card superior */
+.rel2-card {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+/* subtitle */
+.subtitle {
+  margin-top: 10px;
+  color: #334155;
+}
+
+/* KANBAN */
+.kanban {
+  display: flex;
+  gap: 20px;
+}
+
+/* colunas */
+.column {
+  flex: 1;
+  background: rgba(255,255,255,0.1);
+  padding: 15px;
+  border-radius: 12px;
+  min-height: 400px;
+  color: white;
+}
+
+.column h3 {
+  margin-bottom: 10px;
+}
+
+/* cards */
+.card-item {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  cursor: grab;
+  user-select: none;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+/* disponível */
+.available {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* vinculado */
+.linked {
+  background: var(--primary);
+  color: #0f172a;
+}
+
+.card-item:hover {
+  transform: scale(1.02);
+}

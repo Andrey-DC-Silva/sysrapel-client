@@ -1,0 +1,105 @@
+:root {
+  --primary: rgb(108, 208, 186);
+  --primary-dark: rgb(88, 180, 160);
+  --bg: #0f172a;
+  --card: #f8fafc;
+  --text: #0f172a;
+}
+
+.exp-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg), var(--primary-dark));
+  font-family: 'Inter', sans-serif;
+}
+
+.exp-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* título */
+.exp-title {
+  color: white;
+  margin-bottom: 20px;
+}
+
+/* card form */
+.exp-card {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  display: grid;
+  gap: 10px;
+}
+
+/* inputs padrão */
+.input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  outline: none;
+  font-family: 'Inter';
+}
+
+.input:focus {
+  border-color: var(--primary);
+}
+
+/* botão principal */
+.btn-primary {
+  background: var(--primary);
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+/* lista */
+.exp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* item */
+.exp-item {
+  background: white;
+  padding: 12px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ações */
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* botões ícone */
+.btn-icon {
+  border: none;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-icon.edit {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.btn-icon.delete {
+  background: #fee2e2;
+  color: #dc2626;
+}

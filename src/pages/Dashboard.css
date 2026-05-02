@@ -1,0 +1,58 @@
+:root {
+  --primary: rgb(108, 208, 186);
+  --primary-dark: rgb(88, 180, 160);
+  --bg-dark: #0f172a;
+  --text-light: #f8fafc;
+  --card-bg: rgba(255, 255, 255, 0.08);
+  --blur: blur(10px);
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, var(--bg-dark), var(--primary-dark));
+}
+
+/* Container geral */
+.dashboard-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Conteúdo central */
+.dashboard-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  text-align: center;
+}
+
+/* Card de destaque */
+.dashboard-content {
+  margin-top: 40px;
+}
+
+/* Título */
+.dashboard-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-light);
+  max-width: 800px;
+  line-height: 1.4;
+  background: var(--card-bg);
+  padding: 30px;
+  border-radius: 16px;
+  backdrop-filter: var(--blur);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Subtítulo */
+.dashboard-subtitle {
+  margin-top: 20px;
+  color: #cbd5e1;
+  font-size: 16px;
+}
