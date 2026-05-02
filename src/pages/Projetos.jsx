@@ -27,12 +27,14 @@ export default function Projetos() {
 
   const carregarProjetos = async () => {
     const res = await api.get('/projetos');
-    setLista(res.data);
+    console.log('RES:', res.data);
+    setLista(Array.isArray(res.data) ? res.data : res.data.data || []);
   };
 
   const carregarPesquisadores = async () => {
     const res = await api.get('/pesquisadores');
-    setPesquisadores(res.data);
+    console.log('RES:', res.data);
+    setPesquisadores(Array.isArray(res.data) ? res.data : res.data.data || []);
   };
 
   useEffect(() => {
@@ -98,7 +100,6 @@ export default function Projetos() {
           <FaProjectDiagram /> Projetos
         </h2>
 
-        {/* FORM */}
         <div className="proj-card">
 
           <input
@@ -171,7 +172,6 @@ export default function Projetos() {
 
         </div>
 
-        {/* LISTA */}
         <div className="proj-list">
           {lista.map(p => (
             <div key={p.id} className="proj-item">

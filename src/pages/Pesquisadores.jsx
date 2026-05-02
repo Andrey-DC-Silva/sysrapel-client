@@ -18,7 +18,8 @@ export default function Pesquisadores() {
     async function carregar() {
         try {
             const res = await api.get('/pesquisadores');
-            setLista(res.data);
+            console.log('RES:', res.data);
+            setLista(Array.isArray(res.data) ? res.data : res.data.data || []);
         } catch (err) {
             console.error(err);
         }
