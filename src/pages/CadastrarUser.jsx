@@ -17,6 +17,7 @@ export default function CadastroUsuario() {
   const [idPesquisador, setIdPesquisador] = useState('');
   const [senha, setSenha] = useState('');
   const [funcao, setFuncao] = useState('PESQUISADOR');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function load() {

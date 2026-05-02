@@ -15,6 +15,7 @@ function extrairArray(data) {
 export default function Experimentos() {
   const [lista, setLista] = useState([]);
   const [editando, setEditando] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState({
     nome: '',

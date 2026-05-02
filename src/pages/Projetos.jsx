@@ -32,6 +32,7 @@ export default function Projetos() {
   const [pesquisadores, setPesquisadores] = useState([]);
   const [form, setForm] = useState(estadoInicial);
   const [editandoId, setEditandoId] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const carregarProjetos = async () => {
     try {

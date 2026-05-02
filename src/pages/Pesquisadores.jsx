@@ -7,6 +7,7 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 export default function Pesquisadores() {
     const [lista, setLista] = useState([]);
     const [editando, setEditando] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const [form, setForm] = useState({
         nome: '',

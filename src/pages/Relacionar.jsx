@@ -18,6 +18,7 @@ export default function Relacionar() {
   const [vinculados, setVinculados] = useState([]);
   const [disponiveis, setDisponiveis] = useState([]);
   const [experimentoId, setExperimentoId] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function load() {

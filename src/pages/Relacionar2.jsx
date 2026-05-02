@@ -4,7 +4,6 @@ import Navbar from '../components/Navbar';
 import './Relacionar2.css';
 import { FaArrowRight, FaArrowLeft, FaProjectDiagram } from 'react-icons/fa';
 
-// 🔒 util padrão
 function extrairArray(data) {
   if (Array.isArray(data)) return data;
   if (Array.isArray(data?.data)) return data.data;
@@ -19,6 +18,7 @@ export default function Relacionar2() {
   const [projetoNome, setProjetoNome] = useState('');
   const [vinculados, setVinculados] = useState([]);
   const [disponiveis, setDisponiveis] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // 🔽 carregar projetos
   useEffect(() => {

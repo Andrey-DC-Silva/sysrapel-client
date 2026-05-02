@@ -8,6 +8,7 @@ export default function Login() {
   const [cpf, setCpf] = useState('');
   const [senha, setSenha] = useState('');
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const login = async () => {
     if (loading) return;
