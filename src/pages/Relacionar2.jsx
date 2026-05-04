@@ -81,7 +81,7 @@ export default function Relacionar2() {
       <div className="rel2-container">
 
         <h2 className="rel2-title">
-          Drag e Drop Projeto <--> Experimentos
+          Drag e Drop Projeto ※ Experimentos
         </h2>
 
         <div className="rel2-card">
