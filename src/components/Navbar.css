@@ -16,7 +16,6 @@
   font-family: 'Inter', sans-serif;
 }
 
-/* Links */
 .nav-link {
   color: whitesmoke;
   text-decoration: none;
@@ -35,7 +34,6 @@
   color: var(--primary);
 }
 
-/* Botão logout */
 .logout-button {
   margin-left: auto;
   background: transparent;

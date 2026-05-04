@@ -18,13 +18,11 @@
   padding: 20px;
 }
 
-/* título */
 .exp-title {
   color: white;
   margin-bottom: 20px;
 }
 
-/* card form */
 .exp-card {
   background: var(--card);
   padding: 20px;
@@ -35,7 +33,6 @@
   gap: 10px;
 }
 
-/* inputs padrão */
 .input {
   padding: 10px;
   border-radius: 8px;
@@ -48,7 +45,6 @@
   border-color: var(--primary);
 }
 
-/* botão principal */
 .btn-primary {
   background: var(--primary);
   border: none;
@@ -63,14 +59,12 @@
   background: var(--primary-dark);
 }
 
-/* lista */
 .exp-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-/* item */
 .exp-item {
   background: white;
   padding: 12px;
@@ -80,13 +74,11 @@
   align-items: center;
 }
 
-/* ações */
 .actions {
   display: flex;
   gap: 8px;
 }
 
-/* botões ícone */
 .btn-icon {
   border: none;
   padding: 6px 8px;

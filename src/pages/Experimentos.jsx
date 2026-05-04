@@ -4,54 +4,30 @@ import Navbar from '../components/Navbar';
 import { FaPlus, FaTrash, FaEdit } from 'react-icons/fa';
 import './Experimentos.css';
 
-// 🔒 util pra garantir array
-function extrairArray(data) {
-  if (Array.isArray(data)) return data;
-  if (Array.isArray(data?.data)) return data.data;
-  if (Array.isArray(data?.experimentos)) return data.experimentos;
-  return [];
-}
+const initialForm = {
+  nome: '',
+  descricao: '',
+  data: '',
+  status: 'PLANEJADO',
+  pesquisador_id: ''
+};
 
 export default function Experimentos() {
   const [lista, setLista] = useState([]);
   const [editando, setEditando] = useState(null);
-
-  const [form, setForm] = useState({
-    nome: '',
-    descricao: '',
-    data: '',
-    status: 'PLANEJADO',
-    pesquisador_id: ''
-  });
-
-  // 🔽 CARREGAR (única função, corrigida)
-  const carregar = async () => {
-    try {
-      const res = await api.get('/experimentos');
-      console.log('EXPERIMENTOS:', res.data);
-      setLista(extrairArray(res.data));
-    } catch (err) {
-      console.error('Erro ao carregar:', err);
-      setLista([]);
-    }
-  };
+  const [form, setForm] = useState(initialForm);
 
   useEffect(() => {
-    carregar();
+    api.get('/experimentos')
+      .then(res => setLista(res.data || []))
+      .catch(err => console.error('Erro ao carregar:', err));
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
-  };
 
   const limpar = () => {
-    setForm({
-      nome: '',
-      descricao: '',
-      data: '',
-      status: 'PLANEJADO',
-      pesquisador_id: ''
-    });
+    setForm(initialForm);
     setEditando(null);
   };
 
@@ -59,14 +35,15 @@ export default function Experimentos() {
     if (!form.nome) return;
 
     try {
-      if (editando) {
-        await api.put(`/experimentos/${editando}`, form);
-      } else {
-        await api.post('/experimentos', form);
-      }
+      const req = editando
+        ? api.put(`/experimentos/${editando}`, form)
+        : api.post('/experimentos', form);
+
+      await req;
 
       limpar();
-      carregar();
+      const res = await api.get('/experimentos');
+      setLista(res.data || []);
 
     } catch (err) {
       console.error('Erro ao salvar:', err);
@@ -74,14 +51,20 @@ export default function Experimentos() {
   };
 
   const editar = (exp) => {
-    setForm(exp);
+    setForm({
+      nome: exp.nome || '',
+      descricao: exp.descricao || '',
+      data: exp.data || '',
+      status: exp.status || 'PLANEJADO',
+      pesquisador_id: exp.pesquisador_id || ''
+    });
     setEditando(exp.id);
   };
 
   const deletar = async (id) => {
     try {
       await api.delete(`/experimentos/${id}`);
-      carregar();
+      setLista(lista.filter(e => e.id !== id));
     } catch (err) {
       console.error('Erro ao deletar:', err);
     }
@@ -92,66 +75,29 @@ export default function Experimentos() {
       <Navbar />
 
       <div className="exp-container">
-
         <h2 className="exp-title">Experimentos</h2>
 
-        {/* FORM */}
         <div className="exp-card">
+          <input className="input" name="nome" placeholder="Nome" value={form.nome} onChange={handleChange} />
+          <input className="input" name="descricao" placeholder="Descrição" value={form.descricao} onChange={handleChange} />
+          <input className="input" type="date" name="data" value={form.data} onChange={handleChange} />
 
-          <input
-            className="input"
-            name="nome"
-            placeholder="Nome"
-            value={form.nome}
-            onChange={handleChange}
-          />
-
-          <input
-            className="input"
-            name="descricao"
-            placeholder="Descrição"
-            value={form.descricao}
-            onChange={handleChange}
-          />
-
-          <input
-            className="input"
-            type="date"
-            name="data"
-            value={form.data}
-            onChange={handleChange}
-          />
-
-          <select
-            className="input"
-            name="status"
-            value={form.status}
-            onChange={handleChange}
-          >
+          <select className="input" name="status" value={form.status} onChange={handleChange}>
             <option value="PLANEJADO">Planejado</option>
             <option value="EM_ANDAMENTO">Em andamento</option>
             <option value="FINALIZADO">Finalizado</option>
           </select>
 
-          <input
-            className="input"
-            name="pesquisador_id"
-            placeholder="ID do pesquisador"
-            value={form.pesquisador_id}
-            onChange={handleChange}
-          />
+          <input className="input" name="pesquisador_id" placeholder="ID do pesquisador" value={form.pesquisador_id} onChange={handleChange} />
 
           <button className="btn-primary" onClick={salvar}>
             <FaPlus /> {editando ? 'Atualizar' : 'Criar'}
           </button>
-
         </div>
 
-        {/* 🔒 LISTA PROTEGIDA */}
         <div className="exp-list">
-          {(Array.isArray(lista) ? lista : []).map((e) => (
+          {lista.map(e => (
             <div key={e.id} className="exp-item">
-
               <div>
                 <b>{e.nome}</b>
                 <p>{e.status}</p>
@@ -166,11 +112,9 @@ export default function Experimentos() {
                   <FaTrash />
                 </button>
               </div>
-
             </div>
           ))}
         </div>
-
       </div>
     </div>
   );

@@ -18,13 +18,11 @@
   padding: 20px;
 }
 
-/* título */
 .pesq-title {
   color: white;
   margin-bottom: 20px;
 }
 
-/* card form */
 .pesq-card {
   background: var(--card);
   padding: 20px;
@@ -35,7 +33,6 @@
   gap: 10px;
 }
 
-/* inputs padrão */
 .input {
   padding: 10px;
   border-radius: 8px;
@@ -47,7 +44,6 @@
   border-color: var(--primary);
 }
 
-/* botão */
 .btn-primary {
   background: var(--primary);
   border: none;
@@ -62,14 +58,12 @@
   background: var(--primary-dark);
 }
 
-/* lista */
 .pesq-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-/* item */
 .pesq-item {
   background: white;
   padding: 12px;
@@ -79,13 +73,11 @@
   align-items: center;
 }
 
-/* ações */
 .actions {
   display: flex;
   gap: 8px;
 }
 
-/* botões ícone */
 .btn-icon {
   border: none;
   padding: 6px 8px;

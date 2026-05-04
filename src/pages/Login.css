@@ -24,7 +24,6 @@ html, body {
   text-align: center;
 }
 
-/* Nome do sistema */
 .system-name {
   font-size: 34px;
   font-weight: 700;
@@ -33,7 +32,6 @@ html, body {
   color: var(--primary-dark);
 }
 
-/* Link */
 .login-link {
   display: block;
   margin-top: 20px;
@@ -47,14 +45,12 @@ html, body {
   text-decoration: underline;
 }
 
-/* Título */
 .login-title {
   margin-bottom: 20px;
   color: #334155;
   font-weight: 600;
 }
 
-/* Inputs */
 .input-group {
   display: flex;
   align-items: center;
@@ -84,7 +80,6 @@ html, body {
   font-family: 'Inter', sans-serif;
 }
 
-/* Botão */
 .login-button {
   width: 100%;
   padding: 12px;

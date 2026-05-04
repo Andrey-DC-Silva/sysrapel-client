@@ -22,7 +22,6 @@
   margin-bottom: 20px;
 }
 
-/* card superior */
 .rel2-card {
   background: var(--card);
   padding: 20px;
@@ -38,19 +37,16 @@
   border: 1px solid #e2e8f0;
 }
 
-/* subtitle */
 .subtitle {
   margin-top: 10px;
   color: #334155;
 }
 
-/* KANBAN */
 .kanban {
   display: flex;
   gap: 20px;
 }
 
-/* colunas */
 .column {
   flex: 1;
   background: rgba(255,255,255,0.1);
@@ -64,7 +60,6 @@
   margin-bottom: 10px;
 }
 
-/* cards */
 .card-item {
   padding: 10px;
   margin-bottom: 10px;
@@ -75,13 +70,11 @@
   transition: 0.2s;
 }
 
-/* disponível */
 .available {
   background: #e2e8f0;
   color: #0f172a;
 }
 
-/* vinculado */
 .linked {
   background: var(--primary);
   color: #0f172a;

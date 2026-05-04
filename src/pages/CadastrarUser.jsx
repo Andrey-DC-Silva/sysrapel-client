@@ -3,55 +3,46 @@ import api from '../api/api';
 import './CadastrarUser.css';
 import { useNavigate } from 'react-router-dom';
 
-function extrairArray(data) {
-  if (Array.isArray(data)) return data;
-  if (Array.isArray(data?.data)) return data.data;
-  if (Array.isArray(data?.pesquisadores)) return data.pesquisadores;
-  return [];
-}
-
 export default function CadastroUsuario() {
   const navigate = useNavigate();
 
   const [pesquisadores, setPesquisadores] = useState([]);
-  const [idPesquisador, setIdPesquisador] = useState('');
-  const [senha, setSenha] = useState('');
-  const [funcao, setFuncao] = useState('PESQUISADOR');
+  const [form, setForm] = useState({
+    pesquisador_id: '',
+    senha: '',
+    role: 'PESQUISADOR'
+  });
 
   useEffect(() => {
-    async function load() {
-      try {
-        const res = await api.get('/pesquisadores');
-        console.log('PESQUISADORES:', res.data);
-        setPesquisadores(extrairArray(res.data));
-      } catch (err) {
-        console.error('Erro ao carregar pesquisadores:', err);
+    api.get('/pesquisadores')
+      .then(res => setPesquisadores(res.data || []))
+      .catch(err => {
+        console.error('Erro ao carregar:', err);
         setPesquisadores([]);
-      }
-    }
-    load();
+      });
   }, []);
 
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
   const cadastrar = async () => {
+    const { pesquisador_id, senha, role } = form;
+
+    if (!pesquisador_id) {
+      alert('Selecione um pesquisador');
+      return;
+    }
+
     try {
-      const pesquisador = (Array.isArray(pesquisadores) ? pesquisadores : []).find(
-        (p) => p.id === Number(idPesquisador)
-      );
-
-      if (!pesquisador) {
-        alert('Selecione um pesquisador válido');
-        return;
-      }
-
       await api.post('/usuarios', {
-        pesquisador_id: Number(idPesquisador),
+        pesquisador_id: Number(pesquisador_id),
         senha,
-        role: funcao
+        role
       });
 
       alert('Usuário criado!');
-
-      navigate('/');
+      navigate('/', { replace: true });
 
     } catch (err) {
       console.error(err);
@@ -67,12 +58,13 @@ export default function CadastroUsuario() {
       <div className="input-group">
         <select
           className="input-field"
-          value={idPesquisador}
-          onChange={(e) => setIdPesquisador(e.target.value)}
+          name="pesquisador_id"
+          value={form.pesquisador_id}
+          onChange={handleChange}
         >
           <option value="">Selecione pesquisador</option>
 
-          {(Array.isArray(pesquisadores) ? pesquisadores : []).map((p) => (
+          {pesquisadores.map(p => (
             <option key={p.id} value={p.id}>
               {p.nome}
             </option>
@@ -84,17 +76,19 @@ export default function CadastroUsuario() {
         <input
           className="input-field"
           type="password"
+          name="senha"
           placeholder="Senha"
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
+          value={form.senha}
+          onChange={handleChange}
         />
       </div>
 
       <div className="input-group">
         <select
           className="input-field"
-          value={funcao}
-          onChange={(e) => setFuncao(e.target.value)}
+          name="role"
+          value={form.role}
+          onChange={handleChange}
         >
           <option value="PESQUISADOR">Pesquisador</option>
           <option value="ADMIN">Admin</option>

@@ -13,14 +13,12 @@ body {
   background: linear-gradient(135deg, var(--bg-dark), var(--primary-dark));
 }
 
-/* Container geral */
 .dashboard-container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* Conteúdo central */
 .dashboard-content {
   flex: 1;
   display: flex;
@@ -31,12 +29,10 @@ body {
   text-align: center;
 }
 
-/* Card de destaque */
 .dashboard-content {
   margin-top: 40px;
 }
 
-/* Título */
 .dashboard-title {
   font-size: 28px;
   font-weight: 700;
@@ -50,7 +46,6 @@ body {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
-/* Subtítulo */
 .dashboard-subtitle {
   margin-top: 20px;
   color: #cbd5e1;

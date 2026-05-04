@@ -7,6 +7,7 @@ export default function Dashboard() {
       <Navbar />
 
       <div className="dashboard-content">
+      
         <h1 className="dashboard-title">
           Bem-vindo ao Sistema Registro de Atividades de Pesquisa em Laboratório
         </h1>
@@ -14,6 +15,7 @@ export default function Dashboard() {
         <p className="dashboard-subtitle">
           Gerencie pesquisadores, projetos e experimentos de forma centralizada.
         </p>
+      
       </div>
     </div>
   );

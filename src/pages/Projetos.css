@@ -17,7 +17,6 @@
   padding: 20px;
 }
 
-/* título */
 .proj-title {
   color: white;
   margin-bottom: 20px;
@@ -26,7 +25,6 @@
   align-items: center;
 }
 
-/* form */
 .proj-card {
   background: var(--card);
   padding: 20px;
@@ -37,7 +35,6 @@
   box-shadow: 0 6px 20px rgba(0,0,0,0.2);
 }
 
-/* inputs */
 .input {
   padding: 10px;
   border-radius: 8px;
@@ -50,7 +47,6 @@
   border-color: var(--primary);
 }
 
-/* botões */
 .btn-primary {
   background: var(--primary);
   border: none;
@@ -73,14 +69,12 @@
   cursor: pointer;
 }
 
-/* lista */
 .proj-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-/* item */
 .proj-item {
   background: white;
   padding: 12px;
@@ -90,13 +84,11 @@
   align-items: center;
 }
 
-/* ações */
 .actions {
   display: flex;
   gap: 8px;
 }
 
-/* ícones */
 .btn-icon {
   border: none;
   padding: 6px 8px;

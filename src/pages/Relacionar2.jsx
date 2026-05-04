@@ -4,116 +4,75 @@ import Navbar from '../components/Navbar';
 import './Relacionar2.css';
 import { FaArrowRight, FaArrowLeft, FaProjectDiagram } from 'react-icons/fa';
 
-function extrairArray(data) {
-  if (Array.isArray(data)) return data;
-  if (Array.isArray(data?.data)) return data.data;
-  if (Array.isArray(data?.projetos)) return data.projetos;
-  if (Array.isArray(data?.experimentos)) return data.experimentos;
-  return [];
-}
-
 export default function Relacionar2() {
   const [projetos, setProjetos] = useState([]);
-  const [projetoId, setProjetoId] = useState(null);
-  const [projetoNome, setProjetoNome] = useState('');
+  const [projetoId, setProjetoId] = useState('');
   const [vinculados, setVinculados] = useState([]);
   const [disponiveis, setDisponiveis] = useState([]);
-  const [loading, setLoading] = useState(false);
 
-  // 🔽 carregar projetos
   useEffect(() => {
-    async function load() {
-      try {
-        const res = await api.get('/projetos');
-        console.log('PROJETOS:', res.data);
-        setProjetos(extrairArray(res.data));
-      } catch (err) {
-        console.error(err);
-        setProjetos([]);
-      }
-    }
-    load();
+    api.get('/projetos')
+      .then(res => setProjetos(res.data || []))
+      .catch(() => setProjetos([]));
   }, []);
 
-  const carregarVinculados = async (id) => {
+  const carregarDados = async (id) => {
     try {
-      const res = await api.get(`/projetos-experimentos/projeto/${id}`);
-      console.log('VINCULADOS:', res.data);
-      setVinculados(extrairArray(res.data));
+      const [vinculado, disponivel] = await Promise.all([
+        api.get(`/projetos-experimentos/projeto/${id}`),
+        api.get(`/projetos-experimentos/disponiveis/${id}`)
+      ]);
+
+      setVinculados(vinculado.data || []);
+      setDisponiveis(disponivel.data || []);
     } catch (err) {
       console.error(err);
       setVinculados([]);
-    }
-  };
-
-  const carregarDisponiveis = async (id) => {
-    try {
-      const res = await api.get(`/projetos-experimentos/disponiveis/${id}`);
-      console.log('DISPONIVEIS:', res.data);
-      setDisponiveis(extrairArray(res.data));
-    } catch (err) {
-      console.error(err);
       setDisponiveis([]);
     }
   };
 
   const selecionarProjeto = (id) => {
-    const numId = Number(id);
-
-    setProjetoId(numId);
+    setProjetoId(id);
     setVinculados([]);
     setDisponiveis([]);
 
-    const p = (Array.isArray(projetos) ? projetos : []).find(
-      (p) => p.id === numId
-    );
-
-    setProjetoNome(p?.nome || '');
-
-    carregarVinculados(numId);
-    carregarDisponiveis(numId);
+    if (id) carregarDados(id);
   };
 
   const handleDragStart = (e, item, origem) => {
-    e.dataTransfer.setData("item", JSON.stringify({ ...item, origem }));
+    e.dataTransfer.setData('item', JSON.stringify({ ...item, origem }));
   };
 
-  const handleDropVinculados = async (e) => {
+  const handleDrop = async (e, destino) => {
     if (!projetoId) return;
 
     try {
-      const item = JSON.parse(e.dataTransfer.getData("item"));
+      const item = JSON.parse(e.dataTransfer.getData('item'));
 
-      if (item.origem === "disponivel") {
+      if (item.origem === 'disponivel' && destino === 'vinculado') {
         await api.post('/projetos-experimentos', {
-          projeto_id: projetoId,
-          experimento_id: Number(item.id)
+          projeto_id: Number(projetoId),
+          experimento_id: item.id
         });
 
-        carregarVinculados(projetoId);
-        carregarDisponiveis(projetoId);
+        setVinculados(prev => [...prev, item]);
+        setDisponiveis(prev => prev.filter(i => i.id !== item.id));
       }
-    } catch (err) {
-      console.error('Erro ao vincular:', err);
-    }
-  };
 
-  const handleDropDisponiveis = async (e) => {
-    if (!projetoId) return;
-
-    try {
-      const item = JSON.parse(e.dataTransfer.getData("item"));
-
-      if (item.origem === "vinculado") {
+      if (item.origem === 'vinculado' && destino === 'disponivel') {
         await api.delete(`/projetos-experimentos/${projetoId}/${item.id}`);
 
-        carregarVinculados(projetoId);
-        carregarDisponiveis(projetoId);
+        setDisponiveis(prev => [...prev, item]);
+        setVinculados(prev => prev.filter(i => i.id !== item.id));
       }
+
     } catch (err) {
-      console.error('Erro ao remover vínculo:', err);
+      console.error('Erro DnD:', err);
     }
   };
+
+  const projetoSelecionado = projetos.find(p => p.id === Number(projetoId));
 
   return (
     <div className="rel2-page">
@@ -122,79 +81,69 @@ export default function Relacionar2() {
       <div className="rel2-container">
 
         <h2 className="rel2-title">
-          Drag & Drop Projeto ↔ Experimentos
+          Drag e Drop Projeto <--> Experimentos
         </h2>
 
         <div className="rel2-card">
-
           <select
             className="input"
+            value={projetoId}
             onChange={(e) => selecionarProjeto(e.target.value)}
           >
             <option value="">Selecione Projeto</option>
 
-            {(Array.isArray(projetos) ? projetos : []).map(p => (
+            {projetos.map(p => (
               <option key={p.id} value={p.id}>
                 {p.nome}
               </option>
             ))}
           </select>
 
-          {projetoNome && (
+          {projetoSelecionado && (
             <h3 className="subtitle">
-              <FaProjectDiagram /> {projetoNome}
+              <FaProjectDiagram /> {projetoSelecionado.nome}
             </h3>
           )}
-
         </div>
 
-        {/* KANBAN */}
-        <div className="kanban">
-
-          {/* DISPONÍVEIS */}
+        <div className="drag_drop">
           <div
             className="column"
             onDragOver={(e) => e.preventDefault()}
-            onDrop={handleDropDisponiveis}
+            onDrop={(e) => handleDrop(e, 'disponivel')}
           >
-            <h3>
-              <FaArrowLeft /> Disponíveis
-            </h3>
+            <h3><FaArrowLeft /> Disponíveis</h3>
 
-            {(Array.isArray(disponiveis) ? disponiveis : []).map(e => (
+            {disponiveis.map(e => (
               <div
                 key={e.id}
                 className="card-item available"
                 draggable
-                onDragStart={(ev) => handleDragStart(ev, e, "disponivel")}
+                onDragStart={(ev) => handleDragStart(ev, e, 'disponivel')}
               >
                 {e.nome}
               </div>
             ))}
           </div>
 
-          {/* VINCULADOS */}
           <div
             className="column"
             onDragOver={(e) => e.preventDefault()}
-            onDrop={handleDropVinculados}
+            onDrop={(e) => handleDrop(e, 'vinculado')}
           >
-            <h3>
-              <FaArrowRight /> Vinculados
-            </h3>
+            <h3><FaArrowRight /> Vinculados</h3>
 
-            {(Array.isArray(vinculados) ? vinculados : []).map(e => (
+            {vinculados.map(e => (
               <div
                 key={e.id}
                 className="card-item linked"
                 draggable
-                onDragStart={(ev) => handleDragStart(ev, e, "vinculado")}
+                onDragStart={(ev) => handleDragStart(ev, e, 'vinculado')}
               >
                 {e.nome}
               </div>
             ))}
           </div>
-
         </div>
 
       </div>

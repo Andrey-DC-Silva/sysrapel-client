@@ -10,15 +10,7 @@ import {
   FaSave
 } from 'react-icons/fa';
 
-function extrairArray(data) {
-  if (Array.isArray(data)) return data;
-  if (Array.isArray(data?.data)) return data.data;
-  if (Array.isArray(data?.projetos)) return data.projetos;
-  if (Array.isArray(data?.pesquisadores)) return data.pesquisadores;
-  return [];
-}
-
-const estadoInicial = {
+const initialForm = {
   nome: '',
   descricao: '',
   data_inicio: '',
@@ -30,42 +22,30 @@ const estadoInicial = {
 export default function Projetos() {
   const [lista, setLista] = useState([]);
   const [pesquisadores, setPesquisadores] = useState([]);
-  const [form, setForm] = useState(estadoInicial);
+  const [form, setForm] = useState(initialForm);
   const [editandoId, setEditandoId] = useState(null);
 
-  const carregarProjetos = async () => {
-    try {
-      const res = await api.get('/projetos');
-      console.log('PROJETOS:', res.data);
-      setLista(extrairArray(res.data));
-    } catch (err) {
-      console.error('Erro projetos:', err);
-      setLista([]);
-    }
-  };
-
-  const carregarPesquisadores = async () => {
-    try {
-      const res = await api.get('/pesquisadores');
-      console.log('PESQUISADORES:', res.data);
-      setPesquisadores(extrairArray(res.data));
-    } catch (err) {
-      console.error('Erro pesquisadores:', err);
-      setPesquisadores([]);
-    }
-  };
-
   useEffect(() => {
-    carregarProjetos();
-    carregarPesquisadores();
+    Promise.all([
+      api.get('/projetos'),
+      api.get('/pesquisadores')
+    ])
+      .then(([proj, pesq]) => {
+        setLista(proj.data || []);
+        setPesquisadores(pesq.data || []);
+      })
+      .catch(err => {
+        console.error(err);
+        setLista([]);
+        setPesquisadores([]);
+      });
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
-  };
 
   const limpar = () => {
-    setForm(estadoInicial);
+    setForm(initialForm);
     setEditandoId(null);
   };
 
@@ -78,14 +58,16 @@ export default function Projetos() {
           : null
       };
 
-      if (editandoId) {
-        await api.put(`/projetos/${editandoId}`, payload);
-      } else {
-        await api.post('/projetos', payload);
-      }
+      const req = editandoId
+        ? api.put(`/projetos/${editandoId}`, payload)
+        : api.post('/projetos', payload);
+
+      await req;
 
       limpar();
-      carregarProjetos();
+
+      const res = await api.get('/projetos');
+      setLista(res.data || []);
 
     } catch (err) {
       console.error('Erro ao salvar:', err);
@@ -95,7 +77,7 @@ export default function Projetos() {
   const deletar = async (id) => {
     try {
       await api.delete(`/projetos/${id}`);
-      carregarProjetos();
+      setLista(lista.filter(p => p.id !== id));
     } catch (err) {
       console.error('Erro ao deletar:', err);
     }
@@ -126,44 +108,15 @@ export default function Projetos() {
 
         <div className="proj-card">
 
-          <input
-            className="input"
-            name="nome"
-            placeholder="Nome"
-            value={form.nome}
-            onChange={handleChange}
-          />
+          <input className="input" name="nome" placeholder="Nome" value={form.nome} onChange={handleChange} />
 
-          <textarea
-            className="input"
-            name="descricao"
-            placeholder="Descrição"
-            value={form.descricao}
-            onChange={handleChange}
-          />
+          <textarea className="input" name="descricao" placeholder="Descrição" value={form.descricao} onChange={handleChange} />
 
-          <input
-            className="input"
-            type="date"
-            name="data_inicio"
-            value={form.data_inicio}
-            onChange={handleChange}
-          />
+          <input className="input" type="date" name="data_inicio" value={form.data_inicio} onChange={handleChange} />
 
-          <input
-            className="input"
-            type="date"
-            name="data_fim"
-            value={form.data_fim}
-            onChange={handleChange}
-          />
+          <input className="input" type="date" name="data_fim" value={form.data_fim} onChange={handleChange} />
 
-          <select
-            className="input"
-            name="status"
-            value={form.status}
-            onChange={handleChange}
-          >
+          <select className="input" name="status" value={form.status} onChange={handleChange}>
             <option value="ATIVO">Ativo</option>
             <option value="PAUSADO">Pausado</option>
             <option value="FINALIZADO">Finalizado</option>
@@ -177,7 +130,7 @@ export default function Projetos() {
           >
             <option value="">-- Nenhum responsável --</option>
 
-            {(Array.isArray(pesquisadores) ? pesquisadores : []).map(p => (
+            {pesquisadores.map(p => (
               <option key={p.id} value={p.id}>
                 {p.nome} ({p.area_atuacao})
               </option>
@@ -198,7 +151,7 @@ export default function Projetos() {
         </div>
 
         <div className="proj-list">
-          {(Array.isArray(lista) ? lista : []).map(p => (
+          {lista.map(p => (
             <div key={p.id} className="proj-item">
 
               <div>
