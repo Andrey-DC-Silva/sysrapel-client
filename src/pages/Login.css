@@ -7,16 +7,22 @@
 }
 
 html, body {
-  background: linear-gradient(135deg, #0f172a, var(--primary-dark));
   height: 100%;
   margin: 0;
-  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f172a, var(--primary-dark));
   font-family: 'Inter', sans-serif;
 }
 
 .login-container {
   max-width: 400px;
-  margin: 80px auto;
+  width: 100%;
   padding: 35px;
   border-radius: 12px;
   background: #f8fafc;
