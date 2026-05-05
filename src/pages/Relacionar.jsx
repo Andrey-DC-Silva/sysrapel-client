@@ -76,7 +76,7 @@ export default function Relacionar() {
       <Navbar />
 
       <div className="rel-container">
-        <FaLink /> <h2 className="rel-title">Projeto ※ Experimentos</h2>
+        <h2 className="rel-title"><FaLink /> Projeto ※ Experimentos</h2>
         <div className="rel-card">
           <select
             className="input"

@@ -12,7 +12,7 @@
 }
 
 .proj-container {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 40px auto;
   padding: 20px;
 }
@@ -31,7 +31,8 @@
   border-radius: 12px;
   margin-bottom: 30px;
   display: grid;
-  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.2);
 }
 
@@ -41,20 +42,35 @@
   border: 1px solid #e2e8f0;
   outline: none;
   font-family: 'Inter';
+  width: 100%;
 }
 
 .input:focus {
   border-color: var(--primary);
 }
 
+.full {
+  grid-column: span 2;
+}
+
+.actions-form {
+  grid-column: span 2;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
 .btn-primary {
   background: var(--primary);
   border: none;
-  padding: 10px;
+  padding: 10px 14px;
   border-radius: 8px;
   color: white;
   font-weight: 600;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .btn-primary:hover {
@@ -64,7 +80,7 @@
 .btn-secondary {
   background: #e2e8f0;
   border: none;
-  padding: 10px;
+  padding: 10px 14px;
   border-radius: 8px;
   cursor: pointer;
 }
@@ -73,28 +89,47 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-
   max-height: 400px;
   overflow-y: auto;
   padding-right: 5px;
 }
 
+.proj-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.proj-list::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+}
+
 .proj-item {
   background: white;
-  padding: 12px;
+  padding: 14px;
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-left: 4px solid var(--primary);
+  transition: 0.2s;
 }
 
-.exp-list::-webkit-scrollbar {
-  width: 6px;
+.proj-item:hover {
+  transform: translateY(-2px);
 }
 
-.exp-list::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  border-radius: 10px;
+.proj-item b {
+  font-size: 16px;
+}
+
+.proj-item p {
+  margin: 2px 0;
+  font-size: 13px;
+  color: #475569;
+}
+
+.proj-item small {
+  color: #64748b;
 }
 
 .actions {
@@ -107,6 +142,9 @@
   padding: 6px 8px;
   border-radius: 6px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-icon.edit {
@@ -117,4 +155,19 @@
 .btn-icon.delete {
   background: #fee2e2;
   color: #dc2626;
+}
+
+@media (max-width: 768px) {
+  .proj-card {
+    grid-template-columns: 1fr;
+  }
+
+  .full {
+    grid-column: span 1;
+  }
+
+  .actions-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }

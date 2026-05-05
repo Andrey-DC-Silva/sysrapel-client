@@ -75,7 +75,7 @@ export default function Experimentos() {
       <Navbar />
 
       <div className="exp-container">
-        <FaFlask /> <h2 className="exp-title">Experimentos</h2>
+        <h2 className="exp-title"><FaFlask /> Experimentos</h2>
 
         <div className="exp-card">
           <input className="input" name="nome" placeholder="Nome" value={form.nome} onChange={handleChange} />

@@ -73,7 +73,7 @@ export default function Pesquisadores() {
       <Navbar />
 
       <div className="pesq-container">
-        <FaRegUser /><h2 className="pesq-title">Pesquisadores</h2>
+        <h2 className="pesq-title"><FaRegUser /> Pesquisadores</h2>
 
         <form className="pesq-card" onSubmit={salvar}>
           <input className="input" name="nome" placeholder="Nome" value={form.nome} onChange={handleChange} />
