@@ -63,6 +63,10 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 5px;
 }
 
 .exp-item {
@@ -72,6 +76,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.exp-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.exp-list::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
 }
 
 .actions {
