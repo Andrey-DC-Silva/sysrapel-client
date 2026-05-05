@@ -9,7 +9,6 @@ import Experimentos from './pages/Experimentos';
 import Projetos from './pages/Projetos';
 import Relacionar from './pages/Relacionar';
 import Relacionar2 from './pages/Relacionar2';
-import Perfil from './pages/Perfil';
 
 function App() {
   return (
@@ -25,12 +24,6 @@ function App() {
         <Route path="/dashboard" element={
           <Defesa>
             <Dashboard />
-          </Defesa>
-        } />
-
-        <Route path="/perfil" element={
-          <Defesa>
-            <Perfil />
           </Defesa>
         } />
 
