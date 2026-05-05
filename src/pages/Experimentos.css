@@ -16,10 +16,6 @@
   max-width: 900px;
   margin: 40px auto;
   padding: 20px;
-  flex: 1;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
 }
 
 .exp-title {
@@ -28,8 +24,6 @@
 }
 
 .exp-card {
-    display: flex;
-  flex-direction: column;
   background: var(--card);
   padding: 20px;
   border-radius: 12px;

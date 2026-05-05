@@ -5,16 +5,8 @@
   --card: #f8fafc;
 }
 
-html, body {
-  height: 100%;
-  margin: 0;
-  overflow: hidden;
-}
-
 .proj-page {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
   background: linear-gradient(135deg, var(--bg), var(--primary-dark));
   font-family: 'Inter', sans-serif;
 }
@@ -23,10 +15,6 @@ html, body {
   max-width: 900px;
   margin: 40px auto;
   padding: 20px;
-    flex: 1;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
 }
 
 .proj-title {
@@ -38,8 +26,6 @@ html, body {
 }
 
 .proj-card {
-    display: flex;
-  flex-direction: column;
   background: var(--card);
   padding: 20px;
   border-radius: 12px;
@@ -102,11 +88,11 @@ html, body {
   align-items: center;
 }
 
-.proj-list::-webkit-scrollbar {
+.exp-list::-webkit-scrollbar {
   width: 6px;
 }
 
-.proj-list::-webkit-scrollbar-thumb {
+.exp-list::-webkit-scrollbar-thumb {
   background: var(--primary);
   border-radius: 10px;
 }
