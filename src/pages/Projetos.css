@@ -37,19 +37,12 @@
 }
 
 .input {
-  width: 100%;
-  max-width: 100%;
-  padding: 8px 10px;
+  padding: 10px;
   border-radius: 8px;
   border: 1px solid #e2e8f0;
   outline: none;
   font-family: 'Inter';
-  box-sizing: border-box;
-}
-
-textarea.input {
-  resize: vertical;
-  min-height: 70px;
+  width: 100%;
 }
 
 .input:focus {
@@ -70,7 +63,7 @@ textarea.input {
 .btn-primary {
   background: var(--primary);
   border: none;
-  padding: 8px 12px;
+  padding: 10px 14px;
   border-radius: 8px;
   color: white;
   font-weight: 600;
@@ -87,7 +80,7 @@ textarea.input {
 .btn-secondary {
   background: #e2e8f0;
   border: none;
-  padding: 8px 12px;
+  padding: 10px 14px;
   border-radius: 8px;
   cursor: pointer;
 }
@@ -117,6 +110,7 @@ textarea.input {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-left: 4px solid var(--primary);
   transition: 0.2s;
 }
 
