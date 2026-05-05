@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import api from '../api/api';
 import Navbar from '../components/Navbar';
 import './Pesquisadores.css';
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import { FaRegUser, FaEdit, FaTrash } from 'react-icons/fa';
 
 const initialForm = {
   nome: '',
@@ -73,7 +73,7 @@ export default function Pesquisadores() {
       <Navbar />
 
       <div className="pesq-container">
-        <h2 className="pesq-title">Pesquisadores</h2>
+        <FaRegUser /><h2 className="pesq-title">Pesquisadores</h2>
 
         <form className="pesq-card" onSubmit={salvar}>
           <input className="input" name="nome" placeholder="Nome" value={form.nome} onChange={handleChange} />

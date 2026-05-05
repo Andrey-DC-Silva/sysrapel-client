@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import api from '../api/api';
 import Navbar from '../components/Navbar';
 import './Relacionar.css';
+import { FaLink } from 'react-icons/fa';
 
 export default function Relacionar() {
   const [projetos, setProjetos] = useState([]);
@@ -75,8 +76,7 @@ export default function Relacionar() {
       <Navbar />
 
       <div className="rel-container">
-        <h2 className="rel-title">Projeto ↔ Experimentos</h2>
-
+        <FaLink /> <h2 className="rel-title">Projeto ※ Experimentos</h2>
         <div className="rel-card">
           <select
             className="input"

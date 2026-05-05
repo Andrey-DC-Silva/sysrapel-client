@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../api/api';
 import Navbar from '../components/Navbar';
-import { FaPlus, FaTrash, FaEdit } from 'react-icons/fa';
+import { FaFlask, FaPlus, FaTrash, FaEdit } from 'react-icons/fa';
 import './Experimentos.css';
 
 const initialForm = {
@@ -75,7 +75,7 @@ export default function Experimentos() {
       <Navbar />
 
       <div className="exp-container">
-        <h2 className="exp-title">Experimentos</h2>
+        <FaFlask /> <h2 className="exp-title">Experimentos</h2>
 
         <div className="exp-card">
           <input className="input" name="nome" placeholder="Nome" value={form.nome} onChange={handleChange} />

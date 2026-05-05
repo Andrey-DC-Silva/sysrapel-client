@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import api from '../api/api';
 import Navbar from '../components/Navbar';
 import './Relacionar2.css';
-import { FaArrowRight, FaArrowLeft, FaProjectDiagram } from 'react-icons/fa';
+import { FaLink, FaArrowRight, FaArrowLeft, FaProjectDiagram } from 'react-icons/fa';
 
 export default function Relacionar2() {
   const [projetos, setProjetos] = useState([]);
@@ -80,10 +80,7 @@ export default function Relacionar2() {
 
       <div className="rel2-container">
 
-        <h2 className="rel2-title">
-          Drag e Drop Projeto ※ Experimentos
-        </h2>
-
+        <FaLink /> <h2 className="rel2-title"> Drag e Drop Projeto ※ Experimentos</h2>
         <div className="rel2-card">
           <select
             className="input"
