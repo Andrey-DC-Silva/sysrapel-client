@@ -6,6 +6,12 @@
   --text: #0f172a;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
 .pesq-page {
   min-height: 100vh;
   background: linear-gradient(135deg, var(--bg), var(--primary-dark));
@@ -16,6 +22,10 @@
   max-width: 900px;
   margin: 40px auto;
   padding: 20px;
+    flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .pesq-title {
@@ -24,6 +34,8 @@
 }
 
 .pesq-card {
+    display: flex;
+  flex-direction: column;
   background: var(--card);
   padding: 20px;
   border-radius: 12px;

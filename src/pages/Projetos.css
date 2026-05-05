@@ -5,8 +5,16 @@
   --card: #f8fafc;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
 .proj-page {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   background: linear-gradient(135deg, var(--bg), var(--primary-dark));
   font-family: 'Inter', sans-serif;
 }
@@ -15,6 +23,10 @@
   max-width: 900px;
   margin: 40px auto;
   padding: 20px;
+    flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .proj-title {
@@ -26,6 +38,8 @@
 }
 
 .proj-card {
+    display: flex;
+  flex-direction: column;
   background: var(--card);
   padding: 20px;
   border-radius: 12px;

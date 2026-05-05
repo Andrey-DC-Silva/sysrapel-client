@@ -7,6 +7,8 @@
 
 .rel-page {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   background: linear-gradient(135deg, var(--bg), var(--primary-dark));
   font-family: 'Inter', sans-serif;
 }
@@ -15,6 +17,10 @@
   max-width: 900px;
   margin: 40px auto;
   padding: 20px;
+    flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .rel-title {
@@ -23,6 +29,8 @@
 }
 
 .rel-card {
+    display: flex;
+  flex-direction: column;
   background: var(--card);
   padding: 20px;
   border-radius: 12px;
@@ -48,6 +56,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  flex: 1;
+  overflow-y: auto;
 }
 
 .item {
