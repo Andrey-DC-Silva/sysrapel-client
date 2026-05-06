@@ -95,7 +95,7 @@ export default function Pesquisadores() {
           {lista.map(p => (
             <div key={p.id} className="pesq-item">
               <div>
-                <small>ID: {p.id}</small>
+                <p><small>ID: {p.id}</small></p>
                 <b> {p.nome}</b>
                 <p>{p.area_atuacao}</p>
               </div>
