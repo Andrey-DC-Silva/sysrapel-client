@@ -7,7 +7,8 @@ import {
   FaPlus,
   FaTrash,
   FaEdit,
-  FaSave
+  FaSave,
+  FaInfo // 👈 NOVO
 } from 'react-icons/fa';
 
 const initialForm = {
@@ -24,6 +25,7 @@ export default function Projetos() {
   const [pesquisadores, setPesquisadores] = useState([]);
   const [form, setForm] = useState(initialForm);
   const [editandoId, setEditandoId] = useState(null);
+  const [selecionado, setSelecionado] = useState(null); // 👈 NOVO
 
   useEffect(() => {
     Promise.all([
@@ -96,6 +98,10 @@ export default function Projetos() {
     setEditandoId(p.id);
   };
 
+  const info = (p) => {
+    setSelecionado(p);
+  };
+
   return (
     <div className="proj-page">
       <Navbar />
@@ -109,11 +115,8 @@ export default function Projetos() {
         <div className="proj-card">
 
           <input className="input" name="nome" placeholder="Nome" value={form.nome} onChange={handleChange} />
-
           <textarea className="input" name="descricao" placeholder="Descrição" value={form.descricao} onChange={handleChange} />
-
           <input className="input" type="date" name="data_inicio" value={form.data_inicio} onChange={handleChange} />
-
           <input className="input" type="date" name="data_fim" value={form.data_fim} onChange={handleChange} />
 
           <select className="input" name="status" value={form.status} onChange={handleChange}>
@@ -155,6 +158,7 @@ export default function Projetos() {
             <div key={p.id} className="proj-item">
 
               <div>
+                <small>ID: {p.id}</small>
                 <b>{p.nome}</b>
                 <p>{p.status}</p>
                 <small>
@@ -163,6 +167,11 @@ export default function Projetos() {
               </div>
 
               <div className="actions">
+
+                <button className="btn-icon info" onClick={() => info(p)}>
+                  <FaInfo />
+                </button>
+
                 <button className="btn-icon edit" onClick={() => iniciarEdicao(p)}>
                   <FaEdit />
                 </button>
@@ -170,6 +179,7 @@ export default function Projetos() {
                 <button className="btn-icon delete" onClick={() => deletar(p.id)}>
                   <FaTrash />
                 </button>
+
               </div>
 
             </div>
@@ -177,6 +187,27 @@ export default function Projetos() {
         </div>
 
       </div>
+
+      {selecionado && (
+        <div className="modal-overlay" onClick={() => setSelecionado(null)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h3>Detalhes do Projeto</h3>
+
+            <p><b>ID:</b> {selecionado.id}</p>
+            <p><b>Nome:</b> {selecionado.nome}</p>
+            <p><b>Descrição:</b> {selecionado.descricao}</p>
+            <p><b>Status:</b> {selecionado.status}</p>
+            <p><b>Início:</b> {selecionado.data_inicio}</p>
+            <p><b>Fim:</b> {selecionado.data_fim}</p>
+            <p><b>Responsável:</b> {selecionado.pesquisador_nome || 'Nenhum'}</p>
+
+            <button className="btn-primary" onClick={() => setSelecionado(null)}>
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

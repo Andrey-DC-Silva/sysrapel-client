@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../api/api';
 import Navbar from '../components/Navbar';
-import { FaFlask, FaPlus, FaTrash, FaEdit } from 'react-icons/fa';
+import { FaFlask, FaPlus, FaTrash, FaEdit, FaInfo } from 'react-icons/fa';
 import './Experimentos.css';
 
 const initialForm = {
@@ -16,6 +16,7 @@ export default function Experimentos() {
   const [lista, setLista] = useState([]);
   const [editando, setEditando] = useState(null);
   const [form, setForm] = useState(initialForm);
+  const [selecionado, setSelecionado] = useState(null);
 
   useEffect(() => {
     api.get('/experimentos')
@@ -70,6 +71,10 @@ export default function Experimentos() {
     }
   };
 
+  const info = (exp) => {
+    setSelecionado(exp);
+  };
+
   return (
     <div className="exp-page">
       <Navbar />
@@ -99,11 +104,17 @@ export default function Experimentos() {
           {lista.map(e => (
             <div key={e.id} className="exp-item">
               <div>
+                <small>ID: {e.id}</small>
                 <b>{e.nome}</b>
                 <p>{e.status}</p>
               </div>
 
               <div className="actions">
+
+                <button onClick={() => info(e)} className="btn-icon info">
+                  <FaInfo />
+                </button>
+
                 <button onClick={() => editar(e)} className="btn-icon edit">
                   <FaEdit />
                 </button>
@@ -116,6 +127,25 @@ export default function Experimentos() {
           ))}
         </div>
       </div>
+
+      {selecionado && (
+        <div className="modal-overlay" onClick={() => setSelecionado(null)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h3>Detalhes do Experimento</h3>
+
+            <p><b>ID:</b> {selecionado.id}</p>
+            <p><b>Nome:</b> {selecionado.nome}</p>
+            <p><b>Descrição:</b> {selecionado.descricao}</p>
+            <p><b>Status:</b> {selecionado.status}</p>
+            <p><b>Data:</b> {selecionado.data}</p>
+            <p><b>Pesquisador ID:</b> {selecionado.pesquisador_id}</p>
+
+            <button className="btn-primary" onClick={() => setSelecionado(null)}>
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

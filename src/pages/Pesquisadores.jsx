@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import api from '../api/api';
 import Navbar from '../components/Navbar';
 import './Pesquisadores.css';
-import { FaRegUser, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaRegUser, FaEdit, FaTrash, FaInfo } from 'react-icons/fa';
 
 const initialForm = {
   nome: '',
@@ -15,6 +15,7 @@ export default function Pesquisadores() {
   const [lista, setLista] = useState([]);
   const [editando, setEditando] = useState(null);
   const [form, setForm] = useState(initialForm);
+  const [selecionado, setSelecionado] = useState(null);
 
   useEffect(() => {
     api.get('/pesquisadores')
@@ -68,6 +69,10 @@ export default function Pesquisadores() {
     }
   };
 
+  const info = (p) => {
+    setSelecionado(p);
+  };
+
   return (
     <div className="pesq-page">
       <Navbar />
@@ -90,11 +95,16 @@ export default function Pesquisadores() {
           {lista.map(p => (
             <div key={p.id} className="pesq-item">
               <div>
-                {p.id} <b> {p.nome}</b>
+                <small>ID: {p.id}</small>
+                <b> {p.nome}</b>
                 <p>{p.area_atuacao}</p>
               </div>
 
               <div className="actions">
+                <button className="btn-icon info" onClick={() => info(p)}>
+                  <FaInfo />
+                </button>
+
                 <button className="btn-icon edit" onClick={() => editar(p)}>
                   <FaEdit />
                 </button>
@@ -107,6 +117,24 @@ export default function Pesquisadores() {
           ))}
         </div>
       </div>
+
+      {selecionado && (
+        <div className="modal-overlay" onClick={() => setSelecionado(null)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h3>Detalhes do Pesquisador</h3>
+
+            <p><b>ID:</b> {selecionado.id}</p>
+            <p><b>Nome:</b> {selecionado.nome}</p>
+            <p><b>CPF:</b> {selecionado.cpf}</p>
+            <p><b>Email:</b> {selecionado.email}</p>
+            <p><b>Área:</b> {selecionado.area_atuacao}</p>
+
+            <button className="btn-primary" onClick={() => setSelecionado(null)}>
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
