@@ -2,14 +2,7 @@ import { useEffect, useState } from 'react';
 import api from '../api/api';
 import Navbar from '../components/Navbar';
 import './Projetos.css';
-import {
-  FaProjectDiagram,
-  FaPlus,
-  FaTrash,
-  FaEdit,
-  FaSave,
-  FaInfo // 👈 NOVO
-} from 'react-icons/fa';
+import { FaProjectDiagram, FaPlus, FaTrash, FaEdit, FaSave, FaInfo } from 'react-icons/fa';
 
 const initialForm = {
   nome: '',
