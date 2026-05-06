@@ -104,7 +104,7 @@ export default function Experimentos() {
           {lista.map(e => (
             <div key={e.id} className="exp-item">
               <div>
-                <small>ID: {e.id}</small>
+                <p><small>ID: {e.id}</small></p>
                 <b>{e.nome}</b>
                 <p>{e.status}</p>
               </div>
