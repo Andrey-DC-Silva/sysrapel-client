@@ -1,0 +1,64 @@
+:root {
+  --primary: rgb(108, 208, 186);
+  --primary-dark: rgb(88, 180, 160);
+  --bg: #0f172a;
+  --card: #f8fafc;
+}
+
+.usuarios-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg), var(--primary-dark));
+  font-family: 'Inter', sans-serif;
+}
+
+.usuarios-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  color: white;
+}
+
+.usuarios-title {
+  margin-bottom: 20px;
+}
+
+.usuarios-lista {
+  display: grid;
+  gap: 12px;
+}
+
+.usuario-card {
+  background: var(--card);
+  color: #0f172a;
+  padding: 16px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.usuario-acoes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.usuario-acoes select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.btn-excluir {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-excluir:hover {
+  background: #dc2626;
+}

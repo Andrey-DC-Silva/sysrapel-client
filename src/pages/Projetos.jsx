@@ -23,7 +23,7 @@ export default function Projetos() {
   useEffect(() => {
     Promise.all([
       api.get('/projetos'),
-      api.get('/pesquisadores')
+      api.get('/pesquisadores/ativos')
     ])
       .then(([proj, pesq]) => {
         setLista(proj.data || []);

@@ -1,75 +1,97 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import api from '../api/api';
 import './CadastrarUser.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function CadastroUsuario() {
   const navigate = useNavigate();
 
-  const [pesquisadores, setPesquisadores] = useState([]);
   const [form, setForm] = useState({
-    pesquisador_id: '',
+    nome: '',
+    cpf: '',
+    email: '',
     senha: '',
-    role: 'PESQUISADOR'
+    area_atuacao: ''
   });
 
-  useEffect(() => {
-    api.get('/pesquisadores')
-      .then(res => setPesquisadores(res.data || []))
-      .catch(err => {
-        console.error('Erro ao carregar:', err);
-        setPesquisadores([]);
-      });
-  }, []);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const cadastrar = async () => {
-    const { pesquisador_id, senha, role } = form;
+    const { nome, cpf, email, senha } = form;
 
-    if (!pesquisador_id) {
-      alert('Selecione um pesquisador');
+    if (!nome || !cpf || !email || !senha) {
+      alert('Preencha todos os campos obrigatórios');
       return;
     }
 
     try {
-      await api.post('/usuarios', {
-        pesquisador_id: Number(pesquisador_id),
-        senha,
-        role
-      });
+      setLoading(true);
 
-      alert('Usuário criado!');
-      navigate('/', { replace: true });
+      const res = await api.post('/auth/register', form);
 
+      if (res.data?.token) {
+        localStorage.setItem('token', res.data.token);
+      }
+
+      alert('Conta criada com sucesso!');
+      navigate('/dashboard', { replace: true });
     } catch (err) {
       console.error(err);
-      alert('Erro ao criar usuário');
+      const msg = err.response?.data?.error || 'Erro ao criar conta';
+      alert(msg);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="cadastro-container">
       <h1 className="system-name">S-RAPeL</h1>
-      <h2 className="cadastro-title">Criar Usuário</h2>
+      <h2 className="cadastro-title">Criar Conta</h2>
 
       <div className="input-group">
-        <select
+        <input
           className="input-field"
-          name="pesquisador_id"
-          value={form.pesquisador_id}
+          name="nome"
+          placeholder="Nome completo"
+          value={form.nome}
           onChange={handleChange}
-        >
-          <option value="">Selecione pesquisador</option>
+        />
+      </div>
 
-          {pesquisadores.map(p => (
-            <option key={p.id} value={p.id}>
-              {p.nome}
-            </option>
-          ))}
-        </select>
+      <div className="input-group">
+        <input
+          className="input-field"
+          name="cpf"
+          placeholder="CPF"
+          value={form.cpf}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="input-group">
+        <input
+          className="input-field"
+          type="email"
+          name="email"
+          placeholder="E-mail"
+          value={form.email}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="input-group">
+        <input
+          className="input-field"
+          name="area_atuacao"
+          placeholder="Área de atuação"
+          value={form.area_atuacao}
+          onChange={handleChange}
+        />
       </div>
 
       <div className="input-group">
@@ -83,21 +105,13 @@ export default function CadastroUsuario() {
         />
       </div>
 
-      <div className="input-group">
-        <select
-          className="input-field"
-          name="role"
-          value={form.role}
-          onChange={handleChange}
-        >
-          <option value="PESQUISADOR">Pesquisador</option>
-          <option value="ADMIN">Admin</option>
-        </select>
-      </div>
-
-      <button className="primary-button" onClick={cadastrar}>
-        Criar
+      <button className="primary-button" onClick={cadastrar} disabled={loading}>
+        {loading ? 'Criando...' : 'Criar conta'}
       </button>
+
+      <Link to="/" className="cadastro-link">
+        Já tenho conta
+      </Link>
     </div>
   );
 }

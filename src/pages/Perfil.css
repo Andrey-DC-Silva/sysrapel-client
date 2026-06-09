@@ -1,0 +1,60 @@
+:root {
+  --primary: rgb(108, 208, 186);
+  --primary-dark: rgb(88, 180, 160);
+  --bg: #0f172a;
+  --card: #f8fafc;
+}
+
+.perfil-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bg), var(--primary-dark));
+  font-family: 'Inter', sans-serif;
+}
+
+.perfil-container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 20px;
+  color: white;
+}
+
+.perfil-title {
+  margin-bottom: 20px;
+}
+
+.perfil-info {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.perfil-card {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 12px;
+  display: grid;
+  gap: 12px;
+  color: #0f172a;
+}
+
+.perfil-card .input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  outline: none;
+}
+
+.btn-salvar {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-salvar:hover {
+  background: var(--primary-dark);
+}

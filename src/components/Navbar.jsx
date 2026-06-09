@@ -1,23 +1,11 @@
-import { FaRegUser, FaFlask, FaProjectDiagram, FaLink, FaSignOutAlt } from 'react-icons/fa';
+import { FaRegUser, FaFlask, FaProjectDiagram, FaLink, FaSignOutAlt, FaUserCog } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
+import { getUserFromToken } from '../utils/auth';
 import './Navbar.css';
 
 export default function Navbar() {
-
   const navigate = useNavigate();
-
-  const token = localStorage.getItem('token');
-  let funcao = null;
-
-  if (token) {
-    try {
-      const decoded = jwtDecode(token);
-      funcao = decoded.role;
-    } catch (err) {
-      console.error('Token inválido: ' + err);
-    }
-  }
+  const user = getUserFromToken();
 
   const logout = () => {
     localStorage.removeItem('token');
@@ -31,10 +19,20 @@ export default function Navbar() {
         Dashboard
       </a>
 
-      {funcao === 'ADMIN' && (
-        <a className="nav-link" href="/pesquisadores">
-          <FaRegUser /> Pesquisadores
-        </a>
+      <a className="nav-link" href="/perfil">
+        <FaUserCog /> Meu Perfil
+      </a>
+
+      {user?.role === 'ADMIN' && (
+        <>
+          <a className="nav-link" href="/pesquisadores">
+            <FaRegUser /> Pesquisadores
+          </a>
+
+          <a className="nav-link" href="/usuarios">
+            <FaRegUser /> Usuários
+          </a>
+        </>
       )}
 
       <a className="nav-link" href="/experimentos">
