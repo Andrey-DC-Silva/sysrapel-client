@@ -93,7 +93,20 @@ export default function Experimentos() {
             <option value="FINALIZADO">Finalizado</option>
           </select>
 
-          <input className="input" name="pesquisador_id" placeholder="ID do pesquisador" value={form.pesquisador_id} onChange={handleChange} />
+          <select
+            className="input"
+            name="pesquisador_id"
+            value={form.pesquisador_id}
+            onChange={handleChange}
+          >
+            <option value="">-- Nenhum responsável --</option>
+
+            {pesquisadores.map(p => (
+              <option key={p.id} value={p.id}>
+                ({p.id})/{p.nome} ({p.area_atuacao})
+              </option>
+            ))}
+          </select>
 
           <button className="btn-primary" onClick={salvar}>
             <FaPlus /> {editando ? 'Atualizar' : 'Criar'}
