@@ -148,8 +148,8 @@ export default function Experimentos() {
           </button>
         </div>
 
-        <div className={`exp-list-wrapper ${showTopFade ? "fade-top" : ""
-          } ${showBottomFade ? "fade-bottom" : ""}`} >
+        <div className={`exp-list-wrapper ${showTop ? "fade-top" : ""
+          } ${showBottom ? "fade-bottom" : ""}`} >
           <div className="exp-list" onScroll={handleScroll}>
             {lista.map(e => (
               <div key={e.id} className="exp-item">
