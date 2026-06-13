@@ -19,9 +19,6 @@ export default function Experimentos() {
   const [selecionado, setSelecionado] = useState(null);
   const [pesquisadores, setPesquisadores] = useState([]);
 
-  const [showTop, setShowTop] = useState(false);
-  const [showBottom, setShowBottom] = useState(false);
-
   useEffect(() => {
     Promise.all([
       api.get('/experimentos'),
@@ -36,19 +33,6 @@ export default function Experimentos() {
         setLista([]);
         setPesquisadores([]);
       });
-  }, []);
-
-  const handleScroll = (e) => {
-    const el = e.target;
-    setShowTop(el.scrollTop > 0);
-    setShowBottom( el.scrollTop + el.clientHeight < el.scrollHeight - 1);
-  };
-
-  useEffect(() => {
-    const el = document.querySelector(".exp-list");
-    if (el) {
-      setShowBottom(el.scrollHeight > el.clientHeight);
-    }
   }, []);
 
   const handleChange = (e) =>
@@ -148,33 +132,30 @@ export default function Experimentos() {
           </button>
         </div>
 
-        <div className={`exp-list-wrapper ${showTop ? "fade-top" : ""
-          } ${showBottom ? "fade-bottom" : ""}`} >
-          <div className="exp-list" onScroll={handleScroll}>
-            {lista.map(e => (
-              <div key={e.id} className="exp-item">
-                <div>
-                  <b>{e.nome}</b>
-                  <p>{e.status}</p>
-                </div>
-
-                <div className="actions">
-
-                  <button onClick={() => info(e)} className="btn-icon info">
-                    <FaInfo />
-                  </button>
-
-                  <button onClick={() => editar(e)} className="btn-icon edit">
-                    <FaEdit />
-                  </button>
-
-                  <button onClick={() => deletar(e.id)} className="btn-icon delete">
-                    <FaTrash />
-                  </button>
-                </div>
+        <div className="exp-list">
+          {lista.map(e => (
+            <div key={e.id} className="exp-item">
+              <div>
+                <b>{e.nome}</b>
+                <p>{e.status}</p>
               </div>
-            ))}
-          </div>
+
+              <div className="actions">
+
+                <button onClick={() => info(e)} className="btn-icon info">
+                  <FaInfo />
+                </button>
+
+                <button onClick={() => editar(e)} className="btn-icon edit">
+                  <FaEdit />
+                </button>
+
+                <button onClick={() => deletar(e.id)} className="btn-icon delete">
+                  <FaTrash />
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
 
       </div>
