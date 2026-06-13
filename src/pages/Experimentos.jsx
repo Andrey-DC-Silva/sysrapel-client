@@ -19,21 +19,39 @@ export default function Experimentos() {
   const [selecionado, setSelecionado] = useState(null);
   const [pesquisadores, setPesquisadores] = useState([]);
 
-useEffect(() => {
-  Promise.all([
-    api.get('/experimentos'),
-    api.get('/pesquisadores/ativos')
-  ])
-    .then(([exp, pesq]) => {
-      setLista(exp.data || []);
-      setPesquisadores(pesq.data || []);
-    })
-    .catch(err => {
-      console.error(err);
-      setLista([]);
-      setPesquisadores([]);
-    });
-}, []);
+  const [showTop, setShowTop] = useState(false);
+  const [showBottom, setShowBottom] = useState(false);
+
+  useEffect(() => {
+    Promise.all([
+      api.get('/experimentos'),
+      api.get('/pesquisadores/ativos')
+    ])
+      .then(([exp, pesq]) => {
+        setLista(exp.data || []);
+        setPesquisadores(pesq.data || []);
+      })
+      .catch(err => {
+        console.error(err);
+        setLista([]);
+        setPesquisadores([]);
+      });
+  }, []);
+
+  const handleScroll = (e) => {
+    const el = e.target;
+    setShowTopFade(el.scrollTop > 0);
+    setShowBottomFade(
+      el.scrollTop + el.clientHeight < el.scrollHeight - 1
+    );
+  };
+
+  useEffect(() => {
+    const el = document.querySelector(".exp-list");
+    if (el) {
+      setShowBottomFade(el.scrollHeight > el.clientHeight);
+    }
+  }, []);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -43,32 +61,32 @@ useEffect(() => {
     setEditando(null);
   };
 
-const salvar = async () => {
-  if (!form.nome) return;
+  const salvar = async () => {
+    if (!form.nome) return;
 
-  try {
-    const payload = {
-      ...form,
-      pesquisador_id: form.pesquisador_id
-        ? Number(form.pesquisador_id)
-        : null
-    };
+    try {
+      const payload = {
+        ...form,
+        pesquisador_id: form.pesquisador_id
+          ? Number(form.pesquisador_id)
+          : null
+      };
 
-    const req = editando
-      ? api.put(`/experimentos/${editando}`, payload)
-      : api.post('/experimentos', payload);
+      const req = editando
+        ? api.put(`/experimentos/${editando}`, payload)
+        : api.post('/experimentos', payload);
 
-    await req;
+      await req;
 
-    limpar();
+      limpar();
 
-    const res = await api.get('/experimentos');
-    setLista(res.data || []);
+      const res = await api.get('/experimentos');
+      setLista(res.data || []);
 
-  } catch (err) {
-    console.error('Erro ao salvar:', err);
-  }
-};
+    } catch (err) {
+      console.error('Erro ao salvar:', err);
+    }
+  };
 
   const editar = (exp) => {
     setForm({
@@ -132,31 +150,35 @@ const salvar = async () => {
           </button>
         </div>
 
-        <div className="exp-list">
-          {lista.map(e => (
-            <div key={e.id} className="exp-item">
-              <div>
-                <b>{e.nome}</b>
-                <p>{e.status}</p>
+        <div className={`exp-list-wrapper ${showTopFade ? "fade-top" : ""
+          } ${showBottomFade ? "fade-bottom" : ""}`} >
+          <div className="exp-list" onScroll={handleScroll}>
+            {lista.map(e => (
+              <div key={e.id} className="exp-item">
+                <div>
+                  <b>{e.nome}</b>
+                  <p>{e.status}</p>
+                </div>
+
+                <div className="actions">
+
+                  <button onClick={() => info(e)} className="btn-icon info">
+                    <FaInfo />
+                  </button>
+
+                  <button onClick={() => editar(e)} className="btn-icon edit">
+                    <FaEdit />
+                  </button>
+
+                  <button onClick={() => deletar(e.id)} className="btn-icon delete">
+                    <FaTrash />
+                  </button>
+                </div>
               </div>
-
-              <div className="actions">
-
-                <button onClick={() => info(e)} className="btn-icon info">
-                  <FaInfo />
-                </button>
-
-                <button onClick={() => editar(e)} className="btn-icon edit">
-                  <FaEdit />
-                </button>
-
-                <button onClick={() => deletar(e.id)} className="btn-icon delete">
-                  <FaTrash />
-                </button>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
+        
       </div>
 
       {selecionado && (
