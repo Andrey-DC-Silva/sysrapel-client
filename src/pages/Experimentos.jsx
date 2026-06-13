@@ -17,12 +17,23 @@ export default function Experimentos() {
   const [editando, setEditando] = useState(null);
   const [form, setForm] = useState(initialForm);
   const [selecionado, setSelecionado] = useState(null);
+  const [pesquisadores, setPesquisadores] = useState([]);
 
-  useEffect(() => {
-    api.get('/experimentos')
-      .then(res => setLista(res.data || []))
-      .catch(err => console.error('Erro ao carregar:', err));
-  }, []);
+useEffect(() => {
+  Promise.all([
+    api.get('/experimentos'),
+    api.get('/pesquisadores/ativos')
+  ])
+    .then(([exp, pesq]) => {
+      setLista(exp.data || []);
+      setPesquisadores(pesq.data || []);
+    })
+    .catch(err => {
+      console.error(err);
+      setLista([]);
+      setPesquisadores([]);
+    });
+}, []);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -32,24 +43,32 @@ export default function Experimentos() {
     setEditando(null);
   };
 
-  const salvar = async () => {
-    if (!form.nome) return;
+const salvar = async () => {
+  if (!form.nome) return;
 
-    try {
-      const req = editando
-        ? api.put(`/experimentos/${editando}`, form)
-        : api.post('/experimentos', form);
+  try {
+    const payload = {
+      ...form,
+      pesquisador_id: form.pesquisador_id
+        ? Number(form.pesquisador_id)
+        : null
+    };
 
-      await req;
+    const req = editando
+      ? api.put(`/experimentos/${editando}`, payload)
+      : api.post('/experimentos', payload);
 
-      limpar();
-      const res = await api.get('/experimentos');
-      setLista(res.data || []);
+    await req;
 
-    } catch (err) {
-      console.error('Erro ao salvar:', err);
-    }
-  };
+    limpar();
+
+    const res = await api.get('/experimentos');
+    setLista(res.data || []);
+
+  } catch (err) {
+    console.error('Erro ao salvar:', err);
+  }
+};
 
   const editar = (exp) => {
     setForm({
