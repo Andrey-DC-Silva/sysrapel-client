@@ -15,7 +15,7 @@ export default function Perfil() {
   const [salvando, setSalvando] = useState(false);
 
   useEffect(() => {
-    api.get('/usuarios/me')
+    api.get('/usuarios/perfil')
       .then((res) => {
         setPerfil(res.data);
         setForm({
@@ -52,7 +52,7 @@ export default function Perfil() {
         payload.senha = form.senha;
       }
 
-      const res = await api.put('/usuarios/me', payload);
+      const res = await api.put('/usuarios/perfil', payload);
       setPerfil(res.data);
       setForm((prev) => ({ ...prev, senha: '' }));
       alert('Perfil atualizado com sucesso!');
