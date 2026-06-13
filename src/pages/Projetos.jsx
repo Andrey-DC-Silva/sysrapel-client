@@ -18,7 +18,7 @@ export default function Projetos() {
   const [pesquisadores, setPesquisadores] = useState([]);
   const [form, setForm] = useState(initialForm);
   const [editandoId, setEditandoId] = useState(null);
-  const [selecionado, setSelecionado] = useState(null); // 👈 NOVO
+  const [selecionado, setSelecionado] = useState(null);
 
   useEffect(() => {
     Promise.all([
@@ -78,7 +78,7 @@ export default function Projetos() {
     }
   };
 
-  const iniciarEdicao = (p) => {
+  const editar = (p) => {
     setForm({
       nome: p.nome || '',
       descricao: p.descricao || '',
@@ -164,7 +164,7 @@ export default function Projetos() {
                   <FaInfo />
                 </button>
 
-                <button className="btn-icon edit" onClick={() => iniciarEdicao(p)}>
+                <button className="btn-icon edit" onClick={() => editar(p)}>
                   <FaEdit />
                 </button>
 
