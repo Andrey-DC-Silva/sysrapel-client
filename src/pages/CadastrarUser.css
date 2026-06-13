@@ -11,6 +11,7 @@ body {
 }
 
 .cadastro-container {
+  min-width: 350px;
   max-width: 600px;
   margin: 80px auto;
   padding: 35px;
