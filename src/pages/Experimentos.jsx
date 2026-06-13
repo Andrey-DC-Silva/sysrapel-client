@@ -122,7 +122,7 @@ const salvar = async () => {
 
             {pesquisadores.map(p => (
               <option key={p.id} value={p.id}>
-                ({p.id})/{p.nome} ({p.area_atuacao})
+                ID: {p.id} - {p.nome}
               </option>
             ))}
           </select>
