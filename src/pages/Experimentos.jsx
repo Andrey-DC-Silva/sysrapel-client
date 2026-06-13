@@ -40,16 +40,14 @@ export default function Experimentos() {
 
   const handleScroll = (e) => {
     const el = e.target;
-    setShowTopFade(el.scrollTop > 0);
-    setShowBottomFade(
-      el.scrollTop + el.clientHeight < el.scrollHeight - 1
-    );
+    setShowTop(el.scrollTop > 0);
+    setShowBottom( el.scrollTop + el.clientHeight < el.scrollHeight - 1);
   };
 
   useEffect(() => {
     const el = document.querySelector(".exp-list");
     if (el) {
-      setShowBottomFade(el.scrollHeight > el.clientHeight);
+      setShowBottom(el.scrollHeight > el.clientHeight);
     }
   }, []);
 
@@ -178,7 +176,7 @@ export default function Experimentos() {
             ))}
           </div>
         </div>
-        
+
       </div>
 
       {selecionado && (
