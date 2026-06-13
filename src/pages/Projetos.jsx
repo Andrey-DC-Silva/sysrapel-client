@@ -128,7 +128,7 @@ export default function Projetos() {
 
             {pesquisadores.map(p => (
               <option key={p.id} value={p.id}>
-                {p.nome} ({p.area_atuacao})
+               ID: {p.id} - {p.nome}
               </option>
             ))}
           </select>
