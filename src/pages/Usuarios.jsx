@@ -59,7 +59,7 @@ export default function Usuarios() {
               <div key={u.id} className="usuario-card">
                 <div>
                   <strong>ID: {u.id}</strong>
-                  <strong>{u.nome}</strong>
+                  <p><strong>{u.nome}</strong></p>
                   <p>{u.email}</p>
                   <p>CPF: {u.cpf}</p>
                 </div>
