@@ -58,6 +58,7 @@ export default function Usuarios() {
             {lista.map((u) => (
               <div key={u.id} className="usuario-card">
                 <div>
+                  <strong>ID: {u.id}</strong>
                   <strong>{u.nome}</strong>
                   <p>{u.email}</p>
                   <p>CPF: {u.cpf}</p>
