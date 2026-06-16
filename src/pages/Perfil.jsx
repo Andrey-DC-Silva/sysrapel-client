@@ -42,17 +42,17 @@ export default function Perfil() {
     try {
       setSalvando(true);
 
-      const payload = {
+      const dados = {
         nome: form.nome,
         email: form.email,
         area_atuacao: form.area_atuacao
       };
 
       if (form.senha) {
-        payload.senha = form.senha;
+        dados.senha = form.senha;
       }
 
-      const res = await api.put('/usuarios/perfil', payload);
+      const res = await api.put('/usuarios/perfil', dados);
       setPerfil(res.data);
       setForm((prev) => ({ ...prev, senha: '' }));
       alert('Perfil atualizado com sucesso!');
@@ -64,15 +64,6 @@ export default function Perfil() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="perfil-page">
-        <Navbar />
-        <div className="perfil-container">Carregando...</div>
-      </div>
-    );
-  }
-
   return (
     <div className="perfil-page">
       <Navbar />
@@ -81,6 +72,7 @@ export default function Perfil() {
         <h1 className="perfil-title">Meu Perfil</h1>
 
         <div className="perfil-info">
+          <p><strong>ID; </strong>{perfil?.id}</p>
           <p><strong>CPF:</strong> {perfil?.cpf}</p>
           <p><strong>Perfil:</strong> {perfil?.role}</p>
         </div>
