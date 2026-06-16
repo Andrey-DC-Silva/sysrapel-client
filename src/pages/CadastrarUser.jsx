@@ -31,7 +31,7 @@ export default function CadastroUsuario() {
     try {
       setLoading(true);
 
-      const res = await api.post('/auth/register', form);
+      const res = await api.post('/auth/cadastro', form);
 
       if (res.data?.token) {
         localStorage.setItem('token', res.data.token);
